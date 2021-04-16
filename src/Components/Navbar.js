@@ -1,10 +1,9 @@
 import React from 'react';
 import './Navbar.css';
 import { NavLink } from 'react-router-dom';
+const Navbar = (props) => {
+    const {isLoggedIn} =  props;
 
-const Navbar = () => {
-    const token = getToken();
-    
     return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light ">
                 <NavLink className="navbar-brand" to="/">React Auth</NavLink>
@@ -14,11 +13,11 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav mr-auto">
                         <NavLink exact activeClassName="active" className="nav-link" to="/">Home <span className="sr-only">(current)</span></NavLink>
-                        <NavLink className="nav-link" activeClassName="active"  to="/dashboard">Dashboard</NavLink>
+                        {  isLoggedIn ? <NavLink className="nav-link" activeClassName="active"  to="/dashboard">Dashboard</NavLink> : '' }
                     </ul>
                     <span className="navbar-text">
                     <ul className="navbar-nav mr-auto">
-                        <NavLink  className="nav-link" activeClassName="active"  to="/login">Login </NavLink>
+                    { !isLoggedIn ? <NavLink  className="nav-link" activeClassName="active"  to="/login">Login </NavLink> : <NavLink className="nav-link" activeClassName="" to="/logout">Logout</NavLink> }
                     </ul>
                     </span>
                 </div>

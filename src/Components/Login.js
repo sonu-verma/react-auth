@@ -4,11 +4,12 @@ import axios from 'axios';
 import './Login.css'
 import { setUserSession } from '../Utils/Common';
 const Login = (props) => {
+    
     const [error, setError] = useState(null);
     const [loading,setLoading] = useState(false);
     const [username,setUsername] = useState('');
     const [password,setPassword] = useState('');
-
+    const {setIsLoggedIn} = props;
     const handleLogin  = (e) => {
         e.preventDefault();
         setError(null);
@@ -16,7 +17,8 @@ const Login = (props) => {
         axios.post("http://localhost:4000/users/signin",{
             username: username,
             password: password
-        }).then(response => {   
+        }).then(response => { 
+            setIsLoggedIn(true);  
             setLoading(false);
             setUserSession(response.data.token,response.data.user);
             setUsername('');

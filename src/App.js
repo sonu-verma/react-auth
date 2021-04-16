@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import Navbar from './Components/Nevbar';
+import Navbar from './Components/Navbar';
 import { BrowserRouter, Route , Switch } from 'react-router-dom';
 import './App.css';
 import Home from './Components/Home';
@@ -7,12 +7,13 @@ import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
 import PrivateRoute from './Utils/PrivateRoute';
 import PublicRoute from './Utils/PublicRoute';
+import Logout from './Components/Logout';
 import axios from 'axios';
 import { getToken, removeUserSession, setUserSession } from './Utils/Common';
 function App() {
 
   const [authLoading, setAuthLoading] = useState(true)
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   useEffect(()=>{
     const token = getToken();
@@ -36,12 +37,13 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} />
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home}></Route>
-            <PublicRoute path="/login" component={ Login }></PublicRoute>
-            <PrivateRoute path='/dashboard' component={ Dashboard }></PrivateRoute>
+            <PublicRoute path="/login" component={ Login } setIsLoggedIn={setIsLoggedIn}></PublicRoute>
+            <PrivateRoute path='/dashboard' component={ Dashboard } setIsLoggedIn={setIsLoggedIn}></PrivateRoute>
+            <PrivateRoute path="/logout" component={Logout} setIsLoggedIn={setIsLoggedIn} />
           </Switch>
         </div>
       </BrowserRouter>
